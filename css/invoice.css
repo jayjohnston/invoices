@@ -1,0 +1,89 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.outer {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+.invoice {
+  width: 985px;
+  height: 1285px;
+  margin: 0 auto;
+}
+.content {
+  font-family: arial, verdana, sans-serif;
+  padding: 5%;
+}
+.quickbooks {
+  margin-top: 5px;
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid #1d1d1d;
+}
+.quickbooks th, .quickbooks td {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-left: 1px solid #1d1d1d;
+  border-right: 1px solid #1d1d1d;
+}
+.quickbooks th {
+  font-weight: normal;
+  background-color: #e6e6e6;
+}
+.quickbooks td {
+  font-size: 14px;
+}
+.quickbooks tr.bb0 td {
+  border-bottom: 0 solid transparent;
+}
+.pt20 {
+  padding-top: 20px;
+}
+.quickbooks.billto {
+  min-width: 45%;
+}
+.quickbooks.billto td {
+  vertical-align: top;
+  height: 100px;
+}
+.quickbooks.full {
+  width: 100%;
+}
+.total th {
+  padding: 1% 5%;
+  font-size: 20px;
+  border-left: none;
+  border-right: none;
+}
+#payto {
+  font-size: 20px;
+  font-weight: bold;
+  width: 49%;
+  display: block;
+  float: left;
+}
+#payto i {
+  color: #555;
+  font-weight: normal;
+  display: inline-block;
+  margin-top: 10px;
+}
+#invoice {
+  font-size: 35px;
+  width: 49%;
+  display: block;
+  float: left;
+  text-align: right;
+  vertical-align: top;
+}
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}

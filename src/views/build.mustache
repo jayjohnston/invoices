@@ -1,0 +1,38 @@
+{{>partials/header}}
+
+  <div class="header">
+    {{title}}
+    <div id="top_menu" class="inline no-print">
+      <a href="/" class="active">Home</a>
+      <a href="/logout">Logout</a>
+      <a href="/invoices">Invoices</a>
+    </div>
+  </div>
+
+  <form action="/invoice" class="form" method="post">
+    <div class="content">
+      <h1>Welcome, {{user.displayName}}</h1>
+      <a href="/logout">Logout</a><br>
+      <table class="table">
+       {{#fields}}
+        <tr data-multi="{{multi}}" data-multi-nice="{{multi_nice}}" class="{{multi}} {{#clone}}{{.}}{{/clone}}">
+          <td>
+            <a href="javascript:" onclick="show_question(this, '{{help}}')" class="question" tab-index="-1">
+              <img src="/question.png" alt="" title="">
+            </a>
+            {{nice}}:
+          </td>
+          <td>
+            <input type="text" name="{{name}}[]" value="{{value}}" class="{{size}}">
+          </td>
+        </tr>
+       {{/fields}}
+        <tr>
+          <td colspan="2"><input type="submit" value="Build Invoice"></td>
+        </tr>
+        <tr id="help-text" class="help-text"><td colspan="2" class="help-text"></td></tr>
+      </table>
+    </div>
+  </form>
+
+{{>partials/footer}}

@@ -1,0 +1,18 @@
+.error {
+  border: 1px solid #b22222;
+  padding: 20px;
+  color: #b22222;
+  margin-bottom: 10px;
+}
+em {
+  color: #555;
+}
+.bigbutton {
+  width: 300px;
+  height: 175px;
+  border: 1px solid #333;
+  padding: 20px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 25px;
+}

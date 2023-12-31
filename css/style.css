@@ -1,0 +1,67 @@
+.header {
+  background: transparent url('/bg-greydots-m.gif') top left 100% repeat;
+  color: #fff;
+  text-shadow: 1px 2px #000;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  max-width: 985px;
+  margin: 0 auto 20px;
+}
+.content {
+  background-color: #fff;
+  max-width: 985px;
+  margin: 0 auto;
+}
+.footer {
+  margin: 25px auto;
+}
+.text-center {
+  text-align: center;
+}
+.pull-right {
+  float: right;
+}
+.clear {
+  clear: both;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+#top_menu {
+  width: 400px;
+  margin: 20px auto;
+}
+#top_menu a {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 3px 10px;
+  border: 1px solid #0000ff;
+  text-decoration: none;
+  cursor: pointer;
+}
+#top_menu.inline {
+  width: unset;
+  display: inline;
+  margin: 0 10px;
+}
+#top_menu.inline a {
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: rgba(150, 150, 150, 0.35);
+  margin: 1px;
+  transition: margin: 500ms;
+}
+#top_menu.inline a:hover {
+  margin: 0 0 0 2px;
+  background-color: rgba(175, 175, 175, 0.75);
+}
+#top_menu.inline a.active {
+  margin: 0 0 0 2px;
+  cursor: default;
+  background-color: rgba(200, 200, 200, 0.65);
+}

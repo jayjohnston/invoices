@@ -1,0 +1,96 @@
+{{>partials/header}}
+
+  <div class="header no-print">
+    {{title}}
+    <div id="top_menu" class="inline no-print">
+      <a href="/">Home</a>
+      <a href="/logout">Logout</a>
+      <a href="javascript:" onclick="()=>{}">Download PDF</a>
+      <a href="javascript:" onclick="()=>{}">Edit Invoice</a>
+    </div>
+  </div>
+  <div class="outer"><div class="middle"><div class="invoice">
+    <div class="content">
+      <div id="payto">
+        {{#data.check_to}}
+          {{{label_check_to}}}
+          {{.}}<br>
+        {{/data.check_to}}
+        {{#data.venmo_to}}
+          {{{label_venmo_to}}}
+          {{.}}<br>
+        {{/data.venmo_to}}
+        {{#data.paypal_to}}
+          {{{label_paypal_to}}}
+          {{.}}<br>
+        {{/data.paypal_to}}
+        {{#data.zelle_to}}
+          {{{label_zelle_to}}}
+          {{.}}<br>
+        {{/data.zelle_to}}
+      </div>
+      <div id="invoice">
+        Invoice<br>
+        <table class="quickbooks pull-right">
+          <tr>
+            <th>DATE</th>
+            <th>INVOICE #</th>
+          </tr>
+          <tr>
+            <td>{{data.date}}</td>
+            <td>{{data.invoice_number}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="clear pt20">
+        <table class="quickbooks billto">
+          <tr>
+            <th>BILL TO</th>
+          </tr>
+          <tr>
+            <td class="text-left">{{#data.bill_to}}{{.}}<br>{{/data.bill_to}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="clear pt20">
+        <table class="quickbooks pull-right">
+          <tr>
+            <th>DUE DATE</th>
+            <th>P.O. NUMBER</th>
+          </tr>
+          <tr class="bb0">
+            <td>{{data.due_date}}</td>
+            <td>{{data.po_number}}</td>
+          </tr>
+        </table>
+        <br class="clear">
+        <br>
+        <table class="quickbooks full">
+          <tr>
+            <th>ITEM</th>
+            <th>DESCRIPTION</th>
+            <th>QTY</th>
+            <th>RATE</th>
+            <th>AMOUNT</th>
+          </tr>
+          {{#data.items}}
+          <tr class="bb0">
+            <td>{{item}}</td>
+            <td class="text-left">{{description}}</td>
+            <td>{{quantity}}</td>
+            <td class="text-right">{{rate}}</td>
+            <td class="text-right">{{amount}}</td>
+          </tr>
+          {{/data.items}}
+          <tr class="total">
+            <th></th>
+            <th colspan="2" class="text-right">TOTAL</th>
+            <th colspan="2" class="text-right">{{data.total}}</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div></div></div>
+  {{reset_labels}}
+
+{{>partials/footer}}
