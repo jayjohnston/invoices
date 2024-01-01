@@ -4,6 +4,8 @@ const domain = DOMAIN;
 const express = require('express');
 const session = require('express-session');
 const mustacheExpress = require('mustache-express');
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const { sequelize } = require('./model/index');
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -19,11 +21,16 @@ let app = express();
 
 app.use(express.urlencoded({extended: true}));
 
+const session_store = new SequelizeStore({ db: sequelize, });
 app.use(session({
   resave: false,
   saveUninitialized: true,
-  secret: SESSION_SECRET
+  secret: SESSION_SECRET,
+  store: session_store,
+  resave: false,
+  proxy: true,
 }));
+session_store.sync();
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'mustache');
