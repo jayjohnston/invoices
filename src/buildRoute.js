@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const field_data = require('./model/field_data');
+const { field_data } = require('./model/db');
 const { demunge } = require('./model/munge');
 let { fields } = require('./fields');
 const { td, format_date } = require('./dates.js');
@@ -17,7 +17,7 @@ router.get('/', async function(req, res) {
   // that are copied in for them on each new invoice load
   const custom_fields = ['check_to', 'venmo_to', 'paypal_to', 'zelle_to', 'due_date_diff'];
   const all = custom_fields.map(fld => {
-    return get_local_storage(res, fld);
+    return field_data.get_local_storage(res, fld);
   });
   const [
     check_to_vals,
@@ -75,13 +75,6 @@ function update_fld(fld, val, i) {
 
   newfld.value = val;
   return newfld;
-}
-
-async function get_local_storage(res, fld) {
-  const data = await field_data.findOne({
-    where: { user_id: res.locals.user.id, fld }
-  });
-  return data?.dataValues?.value || '[]';
 }
 
 module.exports = router;

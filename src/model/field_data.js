@@ -1,23 +1,42 @@
-const { sequelize, DataTypes } = require('./index');
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('./sequelize');
+const { munge } = require('./munge');
 
-const field_data = sequelize.define(
-  'field_data', {
+const modelName = 'field_data';
+
+class fieldData extends Model {}
+
+fieldData.init(
+  {
     user_id: DataTypes.STRING,
     fld: DataTypes.STRING,
     value: DataTypes.TEXT,
-  },
-  {
+  }, {
     indexes: [
       {
         unique: true,
         fields: ['user_id', 'fld']
       }
-    ]
+    ],
+    sequelize,
+    modelName
   }
 );
 
-(async ()=>{
-  await field_data.sync();
-});
+fieldData.get_local_storage = async (res, fld) => {
+  const data = await fieldData.findOne({
+    where: { user_id: res.locals.user.id, fld }
+  });
+  return data?.dataValues?.value || '[]';
+}
 
-module.exports = field_data
+fieldData.update_field_storage = async (res, fld, value) => {
+  // TODO: optimize update on change
+  await fieldData.upsert({
+    user_id: res.locals.user.id,
+    fld: fld,
+    value: munge(value, true),
+  });
+}
+
+module.exports = fieldData

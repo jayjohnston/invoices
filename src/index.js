@@ -5,7 +5,7 @@ const express = require('express');
 const session = require('express-session');
 const mustacheExpress = require('mustache-express');
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const { sequelize } = require('./model/index');
+const { sequelize } = require('./model/db');
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -16,6 +16,7 @@ const loginRoute = require('./loginRoute');
 const privacyRoute = require('./privacyRoute');
 const termsRoute = require('./termsRoute');
 const debugRoute = require('./debugRoute');
+const listRoute = require('./listRoute');
 
 let app = express();
 
@@ -106,6 +107,8 @@ app.get('/debug*', checkAuthenticated, debugRoute);
 app.use('/', checkAuthenticated, buildRoute);
 
 app.post('/invoice', checkAuthenticated, invoiceRoute);
+app.get('/invoices', checkAuthenticated, listRoute);
+app.get('/invoice/:id', checkAuthenticated, invoiceRoute);
 
 app.listen(3000,function() {
   console.log("Server started");

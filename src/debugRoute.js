@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const field_data = require('./model/field_data');
-const invoice_data = require('./model/invoice_data');
+const { field_data, invoice_data } = require('./model/db');
 
 router.get('/debug', async function(req, res) {
   const data = await field_data.findAll({

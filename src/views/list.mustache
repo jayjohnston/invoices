@@ -1,0 +1,23 @@
+{{>partials/header}}
+
+  <div class="header">
+    {{title}}
+    <div id="top_menu" class="inline no-print">
+      <a href="/">Home</a>
+      <a href="/logout">Logout</a>
+      <a href="/invoices">Invoices</a>
+    </div>
+  </div>
+
+  <div class="content">
+    The invoices are listed here by invoice number.<br>
+    By design, to further secure your data, only the invoice number is stored unencrypted.<br>
+    <hr>
+  {{#list}}
+    <a href="/invoice/{{id}}">Invoice # {{invoice_number}} - Click to View</a><br>
+  {{/list}}
+
+    <hr>
+  </div>
+
+{{>partials/footer}}
