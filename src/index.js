@@ -17,6 +17,7 @@ const privacyRoute = require('./privacyRoute');
 const termsRoute = require('./termsRoute');
 const debugRoute = require('./debugRoute');
 const listRoute = require('./listRoute');
+const feedbackRoute = require('./feedbackRoute');
 
 let app = express();
 
@@ -76,8 +77,10 @@ app.use('/build.css', express.static('./css/build.css'));
 app.use('/invoice.css', express.static('./css/invoice.css'));
 app.use('/style.css', express.static('./css/style.css'));
 app.use('/login.css', express.static('./css/login.css'));
+app.use('/feedback.css', express.static('./css/feedback.css'));
 
 app.use('/build.js', express.static('./js/build.js'));
+app.use('/feedback.js', express.static('./js/feedback.js'));
 
 app.use('/bg-greydots-s.gif', express.static('./images/bg-greydots-s.gif'));
 app.use('/bg-greydots-m.gif', express.static('./images/bg-greydots-m.gif'));
@@ -95,6 +98,8 @@ app.get('/auth/google/callback',
 app.get('/login', loginRoute);
 app.get('/privacy-policy', privacyRoute);
 app.get('/terms-of-service', termsRoute);
+app.get('/feedback', feedbackRoute);
+app.post('/feedbackp', feedbackRoute);
 
 app.get('/logout', function(req, res) {
   req.session.destroy(function (err) {
