@@ -7,6 +7,14 @@ let groups = [];
 // separate groups with style
 const bottom_border = {'border-bottom': '2px solid #000'};
 
+const add_line_item_borders = () => {
+  const line_items = $('[name^=rate]');
+  line_items.map((i, el) => {
+    const tr = $(el).parents('tr');
+    tr.css(bottom_border);
+  });
+}
+
 // each group will have a new
 // row with a cat "add group"
 // that duplicates each group
@@ -30,6 +38,7 @@ grps.map((i, el) => {
     const addr = $(addr_html);
     addr.insertAfter(last);
   }
+  add_line_item_borders();
 });
 
 // when the add group buttons
@@ -68,6 +77,8 @@ function addLine(event, _el, grp) {
     clone.addClass('clone');
     clone.insertBefore(add_tr);
   });
+
+  add_line_item_borders();
 }
 
 const help_text_div = $('#help-text').clone();
