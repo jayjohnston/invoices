@@ -7,7 +7,6 @@ router.get('/invoices', async function(req, res) {
   const style_files = ['/style.css'];
 
   const list = await get_invoice_history(res);
-  console.log('list: ', list)
 
   const view_config = { list, style_files, title };
 
