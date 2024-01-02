@@ -38,11 +38,12 @@ invoiceData.get_invoice_count = async (res) => {
 }
 
 invoiceData.update_invoice_storage = async (id, res, value) => {
-  await invoiceData.upsert({
+  const out = await invoiceData.upsert({
     id,
     user_id: res.locals.user.id,
     value: munge(value, true),
   });
+  return out[0].dataValues.id;
 }
 
 invoiceData.update_field_storage = async (fld, res, value) => {

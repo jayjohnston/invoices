@@ -31,7 +31,7 @@ const show_invoice = async (req, res) => {
   }
 
   const id = req.body.id || null;
-  await invoice_data.update_invoice_storage(id, res, req.body);
+  const invoice_id = await invoice_data.update_invoice_storage(id, res, req.body);
 
   let data = {};
   let items = [];
@@ -72,14 +72,14 @@ const show_invoice = async (req, res) => {
     items[i]['quantity'] = parseFloat(quantity).toFixed(2);
     items[i]['amount'] = parseFloat(amount).toFixed(2);
     items[i]['rate'] = parseFloat(rate).toFixed(2);
-    total = total + amount;
-    total = total.toFixed(2);
+    total = parseFloat(total) + parseFloat(amount);
+    total = parseFloat(total).toFixed(2);
   });
 
   data.items = items;
   data.total = total;
 
-  const view_config = { data, ...functions, style_files, title };
+  const view_config = { data, ...functions, style_files, title, invoice_id };
 
   res.render('invoice', view_config);
 }

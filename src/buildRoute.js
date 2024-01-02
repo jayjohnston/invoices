@@ -1,15 +1,10 @@
 const router = require('express').Router();
-const { field_data } = require('./model/db');
+const { field_data, invoice_data } = require('./model/db');
 const { demunge } = require('./model/munge');
 let { fields } = require('./fields');
 const { td, format_date } = require('./dates.js');
 
 router.get('/', async function(req, res) {
-
-  const title = 'Invoice: Data Entry';
-  const style_files = ['/build.css', '/style.css'];
-  const js_files = ['/build.js'];
-
   let fields_final = [];
   let fields_copy = fields;
 
@@ -62,8 +57,87 @@ router.get('/', async function(req, res) {
       fields_final.push(fld);
     }
   });
-  res.render('build', { fields: fields_final, style_files, js_files, title });
+  build_invoice(req, res, fields_final);
 });
+
+router.get('/build/:id', async function(req, res) {
+  let fields_final = [];
+  let fields_copy = fields;
+
+  const invoice = await invoice_data.get_invoice(res, req.params.id);
+  if (invoice === null) {
+    res.redirect('/build');
+  } else {
+    const data = demunge(invoice.value, true);
+    const invoice_id = data.id;
+
+    // TODOoooooooo!!!
+    // fix this case-and-paste nightmare
+    const grpflds = ['item', 'description', 'quantity', 'rate'];
+    fields_copy.map((fld, x) => {
+
+      if (fld.name == 'check_to' && data.check_to.length > 0) {
+
+	data.check_to.map((val, i) => {
+	  const newfld = update_fld(fld, val, i);
+	  fields_final.push(newfld);
+	});
+      } else if (fld.name == 'bill_to' && data.bill_to.length > 0) {
+
+	data.bill_to.map((val, i) => {
+	  const newfld = update_fld(fld, val, i);
+	  fields_final.push(newfld);
+	});
+      } else if (fld.name == 'item' && data.item.length > 0) {
+
+        // invoice line item grps
+	data.item.map((val, i) => {
+	  grpflds.map((grpfld, j) => {
+            const grpval = data[grpfld][i];
+	    const newfld = update_fld(fields[x + j], grpval, i);
+	    fields_final.push(newfld);
+          });
+	});
+      } else if (fld.name == 'date' && data.date.length > 0) {
+
+	const newfld = update_fld(fld, data.date[0], 0);
+	fields_final.push(newfld);
+      } else if (fld.name == 'due_date') {
+
+	const newfld = update_fld(fld, data.due_date[0], 0);
+	fields_final.push(newfld);
+      } else if (fld.name == 'venmo_to') {
+
+	const newfld = update_fld(fld, data.venmo_to[0], 0);
+	fields_final.push(newfld);
+      } else if (fld.name == 'paypal_to') {
+
+	const newfld = update_fld(fld, data.paypal_to[0], 0);
+	fields_final.push(newfld);
+      } else if (fld.name == 'zelle_to') {
+
+	const newfld = update_fld(fld, data.zelle_to[0], 0);
+	fields_final.push(newfld);
+      } else {
+
+	// all other fields need to be added unless in line item billing
+        if (grpflds.indexOf(fld.name) === -1) {
+	  fields_final.push(fld);
+        }
+      }
+    });
+
+    build_invoice(req, res, fields_final, invoice_id);
+  }
+});
+
+const build_invoice = async (req, res, fields, invoice_id) => {
+  const title = 'Invoice: Data Entry';
+  const style_files = ['/build.css', '/style.css'];
+  const js_files = ['/build.js'];
+
+  res.render('build', { fields, style_files, js_files, title, invoice_id });
+}
 
 function update_fld(fld, val, i) {
   // prevent reference obj updates with a new obj

@@ -110,6 +110,7 @@ app.get('/logout', function(req, res) {
 app.get('/debug*', checkAuthenticated, debugRoute);
 
 app.use('/', checkAuthenticated, buildRoute);
+app.use('/build/:id', checkAuthenticated, buildRoute);
 
 app.post('/invoice', checkAuthenticated, invoiceRoute);
 app.get('/invoices', checkAuthenticated, listRoute);
