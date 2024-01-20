@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const wkhtmltopdf = require('wkhtmltopdf');
 
 const { field_data, invoice_data } = require('./model/db');
 
@@ -17,11 +18,30 @@ router.get('/invoice/:id', async function(req, res) {
   } else {
     req.body = demunge(invoice.value, true);
     req.body.id = req.params.id;
-    show_invoice(req, res);
+    show_invoice(req, res, null);
   }
 });
 
-const show_invoice = async (req, res) => {
+router.get('/invoice/print/:id', async function(req, res) {
+  const invoice = await invoice_data.get_invoice(res, req.params.id);
+  if (invoice === null) {
+    res.redirect('/invoices');
+  } else {
+    req.body = demunge(invoice.value, true);
+    req.body.id = req.params.id;
+    show_invoice(req, res, async (err, html) => {
+      if (err) {
+        console.error('Error printing invoice '+req.params.id, err);
+        res.send('error?! have website admin check the logs...');
+        return;
+      }
+
+      wkhtmltopdf(html).pipe(res);
+    });
+  }
+});
+
+const show_invoice = async (req, res, cb) => {
   const title = 'Invoice: View/Print';
   const style_files = ['/invoice.css', '/style.css'];
 
@@ -81,7 +101,7 @@ const show_invoice = async (req, res) => {
 
   const view_config = { data, ...functions, style_files, title, invoice_id };
 
-  res.render('invoice', view_config);
+  res.render('invoice', view_config, cb);
 }
 
 module.exports = router;

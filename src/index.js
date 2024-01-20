@@ -115,6 +115,7 @@ app.use('/build/:id', checkAuthenticated, buildRoute);
 app.post('/invoice', checkAuthenticated, invoiceRoute);
 app.get('/invoices', checkAuthenticated, listRoute);
 app.get('/invoice/:id', checkAuthenticated, invoiceRoute);
+app.get('/invoice/print/:id', checkAuthenticated, invoiceRoute);
 
 app.listen(3000,function() {
   console.log("Server started");
