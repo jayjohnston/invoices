@@ -3,11 +3,10 @@
   <div class="header no-print">
     {{title}}
     <div id="top_menu" class="inline no-print">
-      <a href="/">Build</a>
-      <a href="/logout">Logout</a>
-      <a href="/invoices">Invoices</a>
-      {{! <a href="javascript:" onclick="()=>{}">Download PDF</a> }}
+      <a href="/invoice/print/{{invoice_id}}">Download PDF</a>
       <a href="/build/{{invoice_id}}">Edit Invoice</a>
+      <a href="/logout">Logout</a>
+      <a href="/invoices">Invoice List</a>
     </div>
   </div>
   <div class="outer"><div class="middle"><div class="invoice">
