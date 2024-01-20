@@ -118,6 +118,14 @@ router.get('/build/:id', async function(req, res) {
 
 	const newfld = update_fld(fld, data.zelle_to[0], 0);
 	fields_final.push(newfld);
+      } else if (fld.name == 'invoice_number') {
+
+	const newfld = update_fld(fld, data.invoice_number, 0);
+	fields_final.push(newfld);
+      } else if (fld.name == 'po_number') {
+
+	const newfld = update_fld(fld, data.po_number, 0);
+	fields_final.push(newfld);
       } else {
 
 	// all other fields need to be added unless in line item billing
