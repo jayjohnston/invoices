@@ -47,7 +47,7 @@ const show_invoice = async (req, res, cb) => {
 
   if (req.body.invoice_number == '') {
     const invoice_count = await invoice_data.get_invoice_count(res);
-    req.body.invoice_number = 100 + parseInt(invoice_count);
+    req.body.invoice_number = 101 + parseInt(invoice_count);
   }
 
   const id = req.body.id || null;
