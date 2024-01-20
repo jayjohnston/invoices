@@ -72,6 +72,7 @@ passport.use(new GoogleStrategy({
 /* Routes */
 app.use('/favicon.ico', express.static('./images/favicon.ico'));
 app.use('/question.png', express.static('./images/question.png'));
+app.use('/google21acb08e2933c61c.html', express.static('./google-site-verification.html'));
 
 app.use('/build.css', express.static('./css/build.css'));
 app.use('/invoice.css', express.static('./css/invoice.css'));
