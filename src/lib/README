@@ -1,0 +1,26 @@
+liame.js (email, backwards) IS committed now. It holds no secrets.
+
+The original note here said it was deliberately withheld. Good instinct, aimed
+one level too high: the secret is the VALUES, not the code that reads them --
+and the values were already handled correctly.
+
+  src/.env.js    real values       in .gitignore, never committed
+  src/.env.dist  same keys, empty  committed, so a fresh clone knows what to fill
+
+liame.js only does require('../.env') and path: '/usr/sbin/sendmail'. Nothing
+sensitive. Withholding it just meant a fresh clone crashed at
+src/feedbackRoute.js:2 -- require('./lib/liame').
+
+--- one more thing worth knowing about this repo ---
+
+database.sqlite IS tracked. It was committed EMPTY at repo init (schema only,
+0 rows) and then given the assume-unchanged flag, so live invoice data is never
+staged. Verify with:
+
+    git ls-files -v database.sqlite      # 'h' = assume-unchanged, good
+
+That works, but assume-unchanged is a LOCAL index flag -- it does not survive a
+fresh clone. If you ever clone this repo somewhere else, set it again before
+the app writes to the database, or you will commit customer invoices:
+
+    git update-index --assume-unchanged database.sqlite
