@@ -140,7 +140,7 @@ router.get('/build/:id', async function(req, res) {
 });
 
 const build_invoice = async (req, res, fields, invoice_id) => {
-  const title = 'Invoice: Data Entry';
+  const title = 'Online Invoices: Data Entry';
   const style_files = ['/build.css', '/style.css'];
   const js_files = ['/build.js'];
 

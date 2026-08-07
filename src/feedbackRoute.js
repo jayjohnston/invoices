@@ -6,7 +6,7 @@ const { promisify } = require('util');
 const request = promisify(require('request'));
 
 router.get('/feedback', async function(req, res) {
-  const title = 'Invoice: Feedback';
+  const title = 'Online Invoices: Feedback';
   const style_files = ['/feedback.css', '/style.css'];
   const js_files = ['/feedback.js'];
   res.render('feedback', { title, style_files, js_files, GOOGLE_RECAPTCHA_CLIENT });
@@ -44,7 +44,7 @@ const requireRecaptcha = async (req, res, next) => {
 };
 
 router.post('/feedbackp', requireRecaptcha, async function(req, res) {
-  const title = 'Invoice: Feedback Received';
+  const title = 'Online Invoices: Feedback Received';
   const style_files = ['/feedback.css', '/style.css'];
 
   let message = req.body.msg;

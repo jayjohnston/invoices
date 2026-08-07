@@ -42,7 +42,7 @@ router.get('/invoice/print/:id', async function(req, res) {
 });
 
 const show_invoice = async (req, res, cb) => {
-  const title = 'Invoice: View/Print';
+  const title = 'Online Invoices: View/Print';
   const style_files = ['/invoice.css', '/style.css'];
 
   if (req.body.invoice_number == '') {
