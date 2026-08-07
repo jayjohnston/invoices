@@ -110,6 +110,38 @@ app.get('/logout', function(req, res) {
 
 app.get('/debug*', checkAuthenticated, debugRoute);
 
+// ---------------------------------------------------------------------------
+// 404 for unknown paths.
+//
+// app.use('/') below is a PREFIX match, so it matches every path there is.
+// Unauthenticated requests therefore fell into checkAuthenticated and were
+// answered with a 302 to /login -- whatever was asked for. The app never
+// emitted an error status, which made this vhost invisible to every fail2ban
+// jail on the box (they all key on error codes, deliberately). On 2026-08-07 a
+// single Azure host walked a 450-request webshell wordlist here in three
+// minutes -- wso112233.php, w3lls.php and friends -- and nothing counted it.
+//
+// Known routes still fall through untouched, so an unauthenticated visitor
+// asking for a REAL page is still redirected to /login as before. Only paths
+// this app does not serve now 404.
+// ---------------------------------------------------------------------------
+const KNOWN_ROUTES = [
+  /^\/$/,
+  /^\/login$/, /^\/logout$/,
+  /^\/privacy-policy$/, /^\/terms-of-service$/,
+  /^\/feedback$/, /^\/feedbackp$/,
+  /^\/auth\/google(\/callback)?$/,
+  /^\/debug/,
+  /^\/build(\/[^/]+)?$/,
+  /^\/invoices$/,
+  /^\/invoice$/, /^\/invoice\/[^/]+$/, /^\/invoice\/print\/[^/]+$/,
+];
+
+app.use(function (req, res, next) {
+  if (KNOWN_ROUTES.some(function (r) { return r.test(req.path); })) return next();
+  res.status(404).type('text/plain').send('Not Found');
+});
+
 app.use('/', checkAuthenticated, buildRoute);
 app.use('/build/:id', checkAuthenticated, buildRoute);
 
